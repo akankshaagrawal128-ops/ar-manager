@@ -13,6 +13,12 @@ export function fyLabel(date: string): string {
   return `${yy(start)}-${yy(start + 1)}`;
 }
 
+/** The 1 April that starts the financial year of a 'YYYY-MM-DD' date. */
+export function fyStart(date: string): string {
+  const [year, month] = date.split('-').map(Number);
+  return `${month >= 4 ? year : year - 1}-04-01`;
+}
+
 /** Prefix and digit count of each series, for the financial year of `date`. */
 function format(series: Series, date: string): { prefix: string; digits: number } {
   const fy = fyLabel(date);

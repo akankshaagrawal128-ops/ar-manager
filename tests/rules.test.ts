@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { addDays, daysBetween, dueDate } from '@/lib/ar/dates';
 import { gstSplit, totalWithGst } from '@/lib/ar/gst';
-import { fyLabel, nextNumber } from '@/lib/ar/numbering';
+import { fyLabel, fyStart, nextNumber } from '@/lib/ar/numbering';
 import type { ArData } from '@/lib/ar/types';
 import { sampleData as data } from './fixture';
 
@@ -92,6 +92,12 @@ describe('R4 financial year', () => {
     expect(fyLabel('2027-03-31')).toBe('26-27');
     expect(fyLabel('2026-03-31')).toBe('25-26');
     expect(fyLabel('2099-04-01')).toBe('99-00');
+  });
+
+  it('starts on 1 April', () => {
+    expect(fyStart('2026-08-31')).toBe('2026-04-01');
+    expect(fyStart('2026-04-01')).toBe('2026-04-01');
+    expect(fyStart('2026-03-31')).toBe('2025-04-01');
   });
 });
 
