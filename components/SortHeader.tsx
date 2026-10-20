@@ -8,7 +8,7 @@ interface Props {
   sort: string;
   dir: 'asc' | 'desc';
   path: string;
-  params: Record<string, string>; // the other settings to keep (asof, search, filters)
+  params: Record<string, string | number>; // the other settings to keep (asof, search, filters)
   align?: 'left' | 'right';
 }
 
