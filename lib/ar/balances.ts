@@ -18,7 +18,7 @@ export interface CustomerPosition {
   netBalance: Paise; // negative is a credit balance (Cr)
   overdue: Paise;
   overLimit: boolean;
-  creditUsedPct: number | null; // net balance as a % of the credit limit; null when the limit is 0
+  creditUsedPct: number | null; // net debit balance as a % of the credit limit (0 when in credit); null when the limit is 0
 }
 
 export interface BalanceDifference {
@@ -77,7 +77,8 @@ export function customerPositions(
       netBalance,
       overdue: outstanding - buckets['Not due'],
       overLimit: netBalance > customer.creditLimit,
-      creditUsedPct: customer.creditLimit > 0 ? (netBalance / customer.creditLimit) * 100 : null,
+      // A customer in credit (an advance) is using none of its limit, not a negative share of it.
+      creditUsedPct: customer.creditLimit > 0 ? (Math.max(netBalance, 0) / customer.creditLimit) * 100 : null,
     };
   });
 }

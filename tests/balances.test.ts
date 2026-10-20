@@ -90,6 +90,11 @@ describe('customerPositions (R13): spot checks', () => {
     }
   });
 
+  it('works out the share of the credit limit used, and 0% for a customer in credit', () => {
+    expect(customerPosition('C003', '2026-08-31').creditUsedPct).toBeCloseTo(111.65, 2); // 4,46,600 / 4,00,000
+    expect(customerPosition('C005', '2026-07-12').creditUsedPct).toBe(0); // 1,00,000 Cr advance
+  });
+
   it('includes inactive customers', () => {
     expect(customerPosition('C008', '2026-04-01')).toMatchObject({ outstanding: 5310000, netBalance: 5310000 });
     expect(customerPosition('C008', '2026-04-25')).toMatchObject({ outstanding: 0, netBalance: 0 });
